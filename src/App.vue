@@ -154,9 +154,7 @@ function randomIntFromInterval(min, max) {
 
 </script>
 
-<style lang="scss">
-@import 'sweetalert2/src/sweetalert2.scss';
-
+<style>
 .color-box {
   cursor: pointer;
   border: none;

@@ -68,18 +68,21 @@ class ViewController: UIViewController {
 		_ = WKdova(webView)
 		
 		// observer notification when keyboard will hide
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+		if #available(iOS 13, *) {
+			// ios 13 or newer doesn't need the fix
+		} else {
+			NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
+		}
 		
 	}
+	
 	// this method was trigger by selector keyboardWillHide from notification
 	@objc func keyboardWillHide() {
 		// BUG: 11.4.2019 There is a bug in iOS 12 where the keyboard does leave a gap after closing
 		// https://github.com/apache/cordova-ios/issues/417
-		if #available(iOS 12, *) {
-			self.webView!.subviews.forEach { (subview) in
-				if let scrollView = subview as? UIScrollView {
-					scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-				}
+		self.webView!.subviews.forEach { (subview) in
+			if let scrollView = subview as? UIScrollView {
+				scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
 			}
 		}
 	}
