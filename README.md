@@ -5,7 +5,9 @@ Die Wortliste entählt ein paar Schweizer Wörter.
 
 ![logo](logo-en.png)
 
-## Project setup
+Du Spielst gegen die app, das bedeutet die Wortliste in `words-de.js` sollte Kategorien enthalten welche nahe am Wort sind.
+
+## Project Setup
 ```
 npm install
 npm run build
