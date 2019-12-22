@@ -1,7 +1,7 @@
 # Ein Fake Artist geht nach Zürich
 
 Deutsche version vom Zeichnen und Rate spiel.
-Die Wortliste entählt ein paar Schweizer Wörter.
+Die Wortliste enthält ein paar Schweizer Wörter.
 
 ![logo](logo-en.png)
 

@@ -155,6 +155,7 @@ function randomIntFromInterval(min, max) {
 </script>
 
 <style>
+
 .color-box {
   cursor: pointer;
   border: none;
