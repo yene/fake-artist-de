@@ -11,7 +11,7 @@
     <div v-else-if="showPlayer > -1">
       <h1>Du bist <span :style="'color:' + colors[showPlayer]">{{colorsDE[showPlayer]}}</span></h1>
       <p>Kategory: <span class="capitalize">{{currentCard.category}}</span></p>
-      <p v-if="fakePlayer === showPlayer">Du bist der Fake</p>
+      <p v-if="fakePlayer === showPlayer">Du bist der Fake Artist</p>
       <p v-else>Wort: <span class="capitalize">{{currentCard.name}}</span></p>
       <button class="my-button" v-on:click="sawCard">Verstanden!</button>
     </div>
