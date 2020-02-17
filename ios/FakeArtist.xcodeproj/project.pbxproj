@@ -9,9 +9,8 @@
 /* Begin PBXBuildFile section */
 		AC1B82FE2392AE56008374C4 /* WKdova in Frameworks */ = {isa = PBXBuildFile; productRef = AC1B82FD2392AE56008374C4 /* WKdova */; };
 		AC5509DA23AF98A2006D6369 /* dist in Resources */ = {isa = PBXBuildFile; fileRef = AC5509D923AF98A2006D6369 /* dist */; };
-		AC88D3DF236DBFA200371F3C /* GCDWebServers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC88D3DA236DBF7000371F3C /* GCDWebServers.framework */; };
-		AC88D3E0236DBFA200371F3C /* GCDWebServers.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AC88D3DA236DBF7000371F3C /* GCDWebServers.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AC88D3E3236DC07A00371F3C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC88D3E2236DC07A00371F3C /* libz.tbd */; };
+		ACB2432423FADD4700C23EFC /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = ACB2432323FADD4700C23EFC /* Swifter */; };
 		ACD89334222822C60073EC6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD89333222822C60073EC6E /* AppDelegate.swift */; };
 		ACD89336222822C60073EC6E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD89335222822C60073EC6E /* ViewController.swift */; };
 		ACD89339222822C60073EC6E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD89337222822C60073EC6E /* Main.storyboard */; };
@@ -20,16 +19,6 @@
 		ACD89347222823920073EC6E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD89346222823920073EC6E /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		AC88D3D9236DBF7000371F3C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC88D3C6236DBF7000371F3C /* GCDWebServer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEE28CEF1AE0051F00F4023C;
-			remoteInfo = "GCDWebServers (iOS)";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		AC88D3E1236DBFA200371F3C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -37,7 +26,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AC88D3E0236DBFA200371F3C /* GCDWebServers.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		AC5509D923AF98A2006D6369 /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dist; path = ../dist; sourceTree = "<group>"; };
-		AC88D3C6236DBF7000371F3C /* GCDWebServer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GCDWebServer.xcodeproj; path = "GCDWebServer-3.5.3/GCDWebServer.xcodeproj"; sourceTree = "<group>"; };
 		AC88D3E2236DC07A00371F3C /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACD89330222822C60073EC6E /* Fake Artist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fake Artist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD89333222822C60073EC6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,26 +53,17 @@
 				AC88D3E3236DC07A00371F3C /* libz.tbd in Frameworks */,
 				ACD89347222823920073EC6E /* WebKit.framework in Frameworks */,
 				AC1B82FE2392AE56008374C4 /* WKdova in Frameworks */,
-				AC88D3DF236DBFA200371F3C /* GCDWebServers.framework in Frameworks */,
+				ACB2432423FADD4700C23EFC /* Swifter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AC88D3C7236DBF7000371F3C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC88D3DA236DBF7000371F3C /* GCDWebServers.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		ACD89327222822C50073EC6E = {
 			isa = PBXGroup;
 			children = (
 				AC5509D923AF98A2006D6369 /* dist */,
-				AC88D3C6236DBF7000371F3C /* GCDWebServer.xcodeproj */,
 				ACD89332222822C60073EC6E /* Webview Bridge */,
 				ACD89331222822C60073EC6E /* Products */,
 				ACD89345222823920073EC6E /* Frameworks */,
@@ -142,6 +120,7 @@
 			name = FakeArtist;
 			packageProductDependencies = (
 				AC1B82FD2392AE56008374C4 /* WKdova */,
+				ACB2432323FADD4700C23EFC /* Swifter */,
 			);
 			productName = "Webview Bridge";
 			productReference = ACD89330222822C60073EC6E /* Fake Artist.app */;
@@ -174,31 +153,16 @@
 			mainGroup = ACD89327222822C50073EC6E;
 			packageReferences = (
 				AC1B82FC2392AE56008374C4 /* XCRemoteSwiftPackageReference "WKdova" */,
+				ACB2432223FADD4700C23EFC /* XCRemoteSwiftPackageReference "swifter" */,
 			);
 			productRefGroup = ACD89331222822C60073EC6E /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = AC88D3C7236DBF7000371F3C /* Products */;
-					ProjectRef = AC88D3C6236DBF7000371F3C /* GCDWebServer.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				ACD8932F222822C60073EC6E /* FakeArtist */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		AC88D3DA236DBF7000371F3C /* GCDWebServers.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = GCDWebServers.framework;
-			remoteRef = AC88D3D9236DBF7000371F3C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ACD8932E222822C60073EC6E /* Resources */ = {
@@ -454,6 +418,14 @@
 				minimumVersion = 0.0.4;
 			};
 		};
+		ACB2432223FADD4700C23EFC /* XCRemoteSwiftPackageReference "swifter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/httpswift/swifter";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.7;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -461,6 +433,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AC1B82FC2392AE56008374C4 /* XCRemoteSwiftPackageReference "WKdova" */;
 			productName = WKdova;
+		};
+		ACB2432323FADD4700C23EFC /* Swifter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACB2432223FADD4700C23EFC /* XCRemoteSwiftPackageReference "swifter" */;
+			productName = Swifter;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

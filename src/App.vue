@@ -2,29 +2,33 @@
   <div id="app">
     <div v-if="gameState === 0">
       <h1 class="main-title">Ein Fake Artist geht nach Zürich</h1>
-      Anzahl Spieler<div class="spacer"></div>
-      <input autofocus type="number" pattern="\d*" min="2" max="10" v-model="playerCount"><div class="spacer"></div>
-      <button class="my-button" v-on:click="startGame" :disabled="playerCount === ''">Start</button>
+      Eine Farbe pro Spieler wählen<div class="spacer"></div>
+      <div class="color-selection">
+        <label v-for="(c) in colors" :key="c" class="a-color" :style="'background-color: ' + c" v-bind:class="{ selected: pickedColors.includes(c) }">
+          <img src="@/assets/check-regular.svg">
+          <input type="checkbox" v-model="pickedColors" :value="c" />
+        </label>
+      </div>
+
+      <button class="my-button" v-on:click="startGame" :disabled="pickedColors.length < 2">Start</button>
       <div class="spacer"></div><div class="spacer"></div>
       <img src="@/assets/box.png">
     </div>
-    <div v-else-if="showPlayer > -1">
-      <h1>Du bist <span :style="'color:' + colors[showPlayer]">{{colorsDE[showPlayer]}}</span></h1>
+    <div v-else-if="showPlayer !== ''">
+      <h1>Du bist <span :style="'color:' + showPlayer">{{translateColor(showPlayer)}}</span></h1>
       <p>Kategory: <span class="capitalize">{{currentCard.category}}</span></p>
       <p v-if="fakePlayer === showPlayer">Du bist der Fake Artist</p>
       <p v-else>Wort: <span class="capitalize">{{currentCard.name}}</span></p>
       <button class="my-button" v-on:click="sawCard">Verstanden!</button>
     </div>
-
     <div v-else>
       <div>
         <h2>Wähle deine Farbe</h2>
-        <div v-for="(c, i) in pickedColors" :key="c">
-          <button :style="'background-color:' + c" class="color-box" v-on:click="showPlayerWith(i)">
-            <span>{{colorsDE[i]}}</span>
+        <div v-for="(c) in pickedColors" :key="c">
+          <button :style="'background-color:' + c" class="color-box" v-on:click="showPlayerWith(c)">
+            <span>{{translateColor(c)}}</span>
           </button>
         </div>
-
       </div>
       <br>
       <button class="my-button" v-on:click="newWord">Neues Wort</button>
@@ -44,19 +48,13 @@ export default {
   },
   data() {
     return {
-      showPlayer: -1,
-      fakePlayer: -1,
-      playerCount: '',
-      colors: ['black', 'red', 'green', 'blue', 'orange', 'yellow', 'darkblue', 'brown', 'darkred', 'darkgreen'],
-      colorsDE: ['Schwarz', 'Rot', 'Grün', 'Blau', 'Orange', 'Gelb', 'Dunkelblau', 'Braun', 'Dunkelrot', 'Dunkelgrün'],
+      showPlayer: '',
+      fakePlayer: '',
+      colors: ['red', 'green', 'blue', 'orange', 'yellow', 'darkblue', 'brown', 'darkred', 'darkgreen', 'black'],
+      pickedColors: [],
       gameState: 0, // 0 setup, 1 playing
       playedCards: [],
       currentCard: {category: '', name: ''},
-    }
-  },
-  computed: {
-    pickedColors() {
-      return this.colors.slice(0, Number(this.playerCount));
     }
   },
   mounted() {
@@ -72,25 +70,25 @@ export default {
     if (local !== null) {
       var s = JSON.parse(local);
       this.gameState = s.gameState;
-      this.playerCount = s.playerCount;
+      this.pickedColors = s.pickedColors;
       this.playedCards = s.playedCards;
       this.fakePlayer = s.fakePlayer;
       this.currentCard = s.currentCard;
     }
   },
   methods: {
-    showPlayerWith(index) {
-      this.showPlayer = index;
+    showPlayerWith(c) {
+      this.showPlayer = c;
       /*window._timeout = setTimeout(() => {
         this.showPlayer = -1;
       }, 7000);*/
     },
     sawCard() {
       //clearTimeout(window._timeout);
-      this.showPlayer = -1;
+      this.showPlayer = '';
     },
     saveGame() {
-      var s = {gameState: this.gameState, playerCount: Number(this.playerCount), playedCards: this.playedCards, fakePlayer: this.fakePlayer, currentCard: this.currentCard};
+      var s = {gameState: this.gameState, playedCards: this.playedCards, fakePlayer: this.fakePlayer, currentCard: this.currentCard, pickedColors: this.pickedColors};
       window.localStorage.setItem('save', JSON.stringify(s));
     },
     startGame() {
@@ -142,8 +140,16 @@ export default {
 
       this.playedCards.push(pos);
       this.currentCard = wordsDE[pos];
-      this.fakePlayer = randomIntFromInterval(0, Number(this.playerCount)-1);
+      var index = randomIntFromInterval(0, this.pickedColors.length-1);
+      console.log(index);
+      this.fakePlayer = this.pickedColors[index];
       this.saveGame();
+    },
+    translateColor(c) {
+      var pool = ['black', 'red', 'green', 'blue', 'orange', 'yellow', 'darkblue', 'brown', 'darkred', 'darkgreen'];
+      var index = pool.indexOf(c);
+      var translations = ['Schwarz', 'Rot', 'Grün', 'Blau', 'Orange', 'Gelb', 'Dunkelblau', 'Braun', 'Dunkelrot', 'Dunkelgrün'];
+      return translations[index];
     }
   }
 }
@@ -155,6 +161,45 @@ function randomIntFromInterval(min, max) {
 </script>
 
 <style>
+
+.color-selection {
+  margin: 0 auto;
+  max-width: 420px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.a-color img {
+  margin-top: 2px;
+  height: 35px;
+  width: 35px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.a-color.selected {
+  border: 1px solid black;
+}
+
+.a-color.selected img {
+  opacity: 1;
+}
+
+.a-color {
+  display: inline-block;
+  margin-right: 2px;
+  margin-top: 2px;
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+.a-color input {
+  display: none;
+}
 
 .color-box {
   cursor: pointer;
@@ -188,6 +233,7 @@ html, body {
 }
 
 body {
+  padding-top: env(safe-area-inset-top) !important;
   -webkit-font-smoothing: antialiased;
 }
 

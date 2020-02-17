@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/yannick/Developer/vue/fake-artist-de/ios/FakeArtist.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

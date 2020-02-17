@@ -2,69 +2,58 @@
 
 import UIKit
 import WebKit
-import GCDWebServers
+import Swifter
 import WKdova
 
 class ViewController: UIViewController {
 	var webView: WKWebView?
-	
-	
+		
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let fileManager = FileManager.default
 		
-		do {
-			let publicFolder = Bundle.main.resourcePath! + "/dist"
-			let fileURLs = try fileManager.contentsOfDirectory(atPath: publicFolder)
-			print(fileURLs)
-			
-			
-			GCDWebServer.setLogLevel(4)
-			let webServer = GCDWebServer()
-			
-			webServer.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: {request in
-				return GCDWebServerDataResponse(html:"<html><body><h1>File not Found</h1></body></html>")
-			})
-			// Note: if your content does update, if you keep getting the same CSS, on each opening of the app you may want to use cacheAge: 0
-			var cacheAge = 3600
-			#if DEBUG
-			cacheAge = 0
-			#endif
-			webServer.addGETHandler(forBasePath: "/", directoryPath: publicFolder, indexFilename: "index.html", cacheAge: 3600, allowRangeRequests: true)
-			
-			webServer.start(withPort: 9080, bonjourName: "GCD Web Server")
-		} catch {
-			print("Unexpected error: \(error).")
+		let publicFolder = Bundle.main.resourcePath! + "/dist"
+		
+		// You can server from iOS device with port 9080
+		// or directly from the dev 8080
+		guard let url = URL(string: "http://127.0.0.1:9080/index.html") else {
+			print("Invalid URL")
 			return
 		}
 		
-		// Note: Safari cache persists over restart, we have to clear it to see changes.
-		#if DEBUG
-		let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
-		let date = Date(timeIntervalSince1970: 0)
-		WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: date, completionHandler:{ })
-		#endif
+		let server = HttpServer()
+		server["/:path"] = shareFilesFromDirectory(publicFolder)
+		server["/css/:path"] = shareFilesFromDirectory(publicFolder + "/css")
+		server["/js/:path"] = shareFilesFromDirectory(publicFolder + "/js")
+		server["/img/:path"] = shareFilesFromDirectory(publicFolder + "/img")
 		
-		let contentController = WKUserContentController()
-		let config = WKWebViewConfiguration()
-		config.userContentController = contentController
-		let webView = WKWebView(frame: .zero, configuration: config)
+		// redirect to vue.js router (not in history mode) /404
+		// vue router will handle non matches, for example: { path: '*', redirect: '/' }
+		server.notFoundHandler = { request in
+			print("Path not found", request.path)
+			return .movedTemporarily("/index.html#/404")
+		}
+		
+		do {
+			try server.start(9080)
+			print("Server has started ( port = \(try server.port()) ). Try to connect now...")
+		} catch {
+			print("Server start error: \(error)")
+		}
+		
+		let webView = WKWebView(frame: .zero)
+		webView.scrollView.contentInsetAdjustmentBehavior = .never;
 		webView.backgroundColor = .white
 		view.addSubview(webView)
-		
 		webView.translatesAutoresizingMaskIntoConstraints = false
-		webView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-		webView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-		webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-		webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		NSLayoutConstraint.activate([
+			webView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+			webView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+			webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+			webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+		])
 		webView.scrollView.bounces = false;
 		webView.isOpaque = false;
-		
-		if let url = URL(string: "http://localhost:9080/index.html") {
-			webView.load(URLRequest(url: url))
-		}
-
-		self.webView = webView
+		webView.load(URLRequest(url: url))
 		_ = WKdova(webView)
 		
 		// observer notification when keyboard will hide

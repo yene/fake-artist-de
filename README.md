@@ -10,5 +10,7 @@ Das phone (mit der App) gibt vor was man zeichnet und wer der "Fake Artist" ist.
 
 [Regeln](https://oinkgms.com/de/a-fake-artist-goes-to-new-york) [Rules PDF EN](https://tesera.ru/images/items/744225/rule_fakeartist_e.pdf)
 
+![pencils](pencils.jpg)
+
 ## Wörter
 Die App ist auf der Seite des Fake Artist, deshalb sollte die Wortliste `words-de.js` Kategorien+Wörter paare enthalten welche einfach zu erraten sind.
